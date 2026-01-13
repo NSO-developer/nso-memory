@@ -1,3 +1,6 @@
+#!/bin/bash
+
+
 INSTALLATION_PATH=$1
 
 trap "cleanup" SIGINT 

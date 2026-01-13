@@ -1,1 +1,1 @@
-bash start.sh &
+bash startup.sh $PWD &

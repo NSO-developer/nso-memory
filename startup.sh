@@ -1,33 +1,47 @@
 INSTALLATION_PATH=$1
 
-trap "cleanup" SIGKILL 
+trap "cleanup" SIGINT 
+trap "cleanup" SIGKILL
+
 
 cleanup () {
+    echo "Cleaning up monitoring processes..."
     PID_MONITOR=$(pgrep -f plot.sh)
-    kill -INT $PID_MONITOR
+    echo "Terminating Memory Monitor PID $PID_MONITOR"
+    pkill -f plot.sh
+    pkill -f monitor.sh
+    pkill -f collect.sh
     PID_MIDDLE=$(pgrep -f lib/middleware/main.py)
-    kill -INT $PID_MIDDLE
+    echo "Terminating Middleware PID $PID_MIDDLE"
+    pkill -f lib/middleware/main.py
+    #kill -9 $PID_MIDDLE
+    exit 0
 }
 
-# montior engine
-cd $INSTALLATION_PATH/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $INSTALLATION_PATH/logs/monitor.log &
-# middleware action engine
-python lib/middleware/main.py $INSTALLATION_PATH/logs/monitor.log &> $INSTALLATION_PATH/logs/action.log &
+
+start_monitoring_daemon () {
+    # montior engine
+    cd $INSTALLATION_PATH/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $INSTALLATION_PATH/logs/monitor.log &
+    cd $INSTALLATION_PATH
+    # middleware action engine
+    python $INSTALLATION_PATH/lib/middleware/main.py $INSTALLATION_PATH/logs/monitor.log $INSTALLATION_PATH/logs/action.log &
+}
 
 
-PID_NCS=$(pgrep -f ncs.smp)
-# startup NSO
-if  [ -z "$PID_NCS" ]; then
-    ncs
-fi
+start_monitoring_daemon
 
+# PID_NCS=$(pgrep -f "\.smp.*-ncs true")
+# # startup NSO
+# if  [ -z "$PID_NCS" ]; then
+#     ncs
+# fi
+
+# if NSO is terminated, stop all monitoring processes
 while true
 do
-  PID_NCS=$(pgrep -f ncs.smp)
+  PID_NCS=$(pgrep -f "\.smp.*-ncs true")
   if  [ -z "$PID_NCS" ]; then
     cleanup 
     break
     fi
 done
-
-wait

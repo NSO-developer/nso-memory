@@ -17,7 +17,7 @@ The method below shows how to startup the toolset. The toolset only can be start
 ```
 cd $PWD/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $PWD/logs/monitor.log
 ```
-3. Startup Middle ware from another terminal with the following command
+3. Startup middleware from another terminal with the following command
 ```
     python $PWD/lib/middleware/main.py $PWD/logs/monitor.log $PWD/logs/action.log
 ```

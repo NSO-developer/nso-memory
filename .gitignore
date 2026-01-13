@@ -1,0 +1,5 @@
+assets/debug_dump/
+!assets/debug_dump/.gitkeep
+logs/*
+!logs/.gitkeep
+lib/memory_utilization_tool

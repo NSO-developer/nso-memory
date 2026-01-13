@@ -10,7 +10,7 @@ cleanup () {
 }
 
 # montior engine
-cd $INSTALLATION_PATH/lib/memory_utilization_tool/ ;bash plot.sh -m NaN &> $INSTALLATION_PATH/logs/monitor.log &
+cd $INSTALLATION_PATH/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $INSTALLATION_PATH/logs/monitor.log &
 # middleware action engine
 python lib/middleware/main.py $INSTALLATION_PATH/logs/monitor.log &> $INSTALLATION_PATH/logs/action.log &
 

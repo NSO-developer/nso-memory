@@ -1,6 +1,6 @@
 # NSO Proactive Memory Handling Toolset
 This repository present a external toolset that startup a rescue script and operate beside NSO to take care of the NSO during Out of Memory scenario. The design of the toolset is shown as the diagram below. We create the Rescue Script as shown in the red box. Inside the rescue script we monitor the memory utilization with [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool)
-  than proceed with the action in the middleware. 
+  than proceed with the action in the middleware.  
 ![image](image/image.png)
 
 ## Action Proceed
@@ -11,6 +11,12 @@ The tool will monitor two logs from the [NSO Memory Utilization Measurement Tool
 
 ## Usage
 The method below shows how to startup the toolset. The toolset only can be startup under the root path of the toolset(not in any of the subfolder). 
+### Prequisition
+Run the following command to build the relevant dependency
+```
+make build
+```
+
 ### Manual Method
 1. Make sure NSO is up. If NSO is down, the tool will terminate automatically
 2. Startup [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool) in one terminal with the following command
@@ -27,7 +33,7 @@ cd $PWD/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $PWD/logs/monito
 ### Automatic Method
 * Start up the rescue script in the backend with main.sh
 ```
-bash main.sh
+make start
 ```
 
 * Or the rescue script in the front end

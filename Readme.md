@@ -35,11 +35,11 @@ cd $PWD/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $PWD/logs/monito
 ### Automatic Method
 * Start up the rescue script in the backend with main.sh
 ```
-make start
+make start_backend
 ```
 
 * Or the rescue script in the front end
 ```
-bash startup.sh $PWD
+make start_frontend
 ```
 

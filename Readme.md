@@ -8,6 +8,8 @@ The tool will monitor two logs from the [NSO Memory Utilization Measurement Tool
 * Warning - Collect 3 debug dump with 1 second apart
 * Critical - Kill NSO with SIGUSR1 instead of SIGKILL from OOM Killer. 
 
+If you want to create your own customized action, you can modify the log_inspection function in lib/middleware/main.py.
+
 
 ## Usage
 The method below shows how to startup the toolset. The toolset only can be startup under the root path of the toolset(not in any of the subfolder). 

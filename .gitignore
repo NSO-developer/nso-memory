@@ -3,3 +3,4 @@ assets/debug_dump/
 logs/*
 !logs/.gitkeep
 lib/memory_utilization_tool
+lib/middleware/__pycache__/

@@ -8,8 +8,36 @@ The tool will monitor two logs from the [NSO Memory Utilization Measurement Tool
 * Warning - Collect 3 debug dump with 1 second apart
 * Critical - Kill NSO with SIGUSR1 instead of SIGKILL from OOM Killer. 
 
-If you want to create your own customized action, you can modify the log_inspection function in lib/middleware/main.py.
+### Create your own Action
+If you want to create your own customized action, modify the following callback function in lib/middleware/callbacks.py.
 
+#### Physical Memory Handling
+* Define handling action when physical memory is at normal range
+```
+info_phy(logger,ncssmp_pid=None,overcommit_mode=None)
+```
+* Define handling action when physical memory is over Warning Level but did not reach the Critical Level
+```
+warning_phy(logger,ncssmp_pid=None,overcommit_mode=None)
+```
+* Define handling action when physical memory is over Critical Level
+```
+crit_phy(logger,ncssmp_pid=None,overcommit_mode=None)
+```
+
+#### Allocated Memory Handling
+* Define handling action when allocated memory is at normal range
+```
+info_alloc(logger,ncssmp_pid=None,overcommit_mode=None)
+```
+* Define handling action when allocated memory is over Warning Level but did not reach the Critical Level
+```
+warning_alloc(logger,ncssmp_pid=None,overcommit_mode=None
+```
+* Define handling action when allocated memory is over Critical Level
+```
+crit_alloc(logger,ncssmp_pid=None,overcommit_mode=None)
+```
 
 ## Usage
 The method below shows how to startup the toolset. The toolset only can be startup under the root path of the toolset(not in any of the subfolder). 
@@ -41,5 +69,23 @@ make start_backend
 * Or the rescue script in the front end
 ```
 make start_frontend
+```
+
+## Copyright and License Notice
+```
+Copyright (c) 2025 Cisco and/or its affiliates.
+
+This software is licensed to you under the terms of the Cisco Sample
+Code License, Version 1.1 (the "License"). You may obtain a copy of the
+License at
+
+               https://developer.cisco.com/docs/licenses
+
+All use of the material herein must be in accordance with the terms of
+the License. All rights not expressly granted by the License are
+reserved. Unless required by applicable law or agreed to separately in
+writing, software distributed under the License is distributed on an "AS
+IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+or implied.
 ```
 

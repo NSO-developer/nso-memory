@@ -71,7 +71,7 @@ cd $PWD/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $PWD/logs/monito
 ```
 3. Startup middleware from another terminal with the following command
 ```
-    python $PWD/lib/middleware/main.py $PWD/logs/monitor.log $PWD/logs/action.log
+python $PWD/lib/middleware/main.py $PWD/logs/monitor.log $PWD/logs/action.log
 ```
 4. The middleware will now monitor the output of the [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool). Incase the WARNING or CRIT is printed for allocated or used memory, the middleware will proceed with the action. 
 

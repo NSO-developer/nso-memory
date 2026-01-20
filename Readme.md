@@ -1,15 +1,19 @@
 # NSO Proactive Memory Handling Toolset
-This repository present a external toolset that startup a rescue script and operate beside NSO to take care of the NSO during Out of Memory scenario. The design of the toolset is shown as the diagram below. We create the Rescue Script as shown in the red box. Inside the rescue script we monitor the memory utilization with [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool)
-  than proceed with the action in the middleware.  
-![image](image/image.png)
+This repository present a external toolset that startup a rescue script and operate beside NSO to take care of the Out of Memory scenario during NSO operation. The repository shows the application usage of the latest NSO Memory Best Practices by create a Rescue Script works beside the NSO as shown in the red box. The rescue script will incharge of the monitor the memory utilization of the NSO and proceed with the action described in the Action Proceed chapter below. At the same time, generate diagram of how memory utilization looks like with the help of the [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool)  
+![image](image/theory.png)  
+
+The architecture of the toolset is shown as the diagram below. Inside the rescue script we monitor the memory utilization with [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool). The middle script will inspect the logs of [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool) than proceed with the action that defined in the callback function.  
+![image](image/arch.png)
 
 ## Action Proceed
 The tool will monitor two logs from the [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool) and proceed with different action. 
 * Warning - Collect 3 debug dump with 1 second apart
-* Critical - Kill NSO with SIGUSR1 instead of SIGKILL from OOM Killer. 
+* Critical - Kill NSO with SIGUSR1 instead of SIGKILL from OOM Killer. In this case, crash dump can be generated when vm.overcommit_memory=0 before the OOM Killer step in.
+
+Diagram wll be generated from [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool) as usual for troubleshooting. Combine the logs with the diagram generated together with the extra information captured above will make troubleshooting much easier. At the same time, handle the critical scenario in a much graceful way. 
 
 ### Create your own Action
-If you want to create your own customized action, modify the following callback function in lib/middleware/callbacks.py.
+If you want to create your own customized action at different alarm level, modify the following callback function in lib/middleware/callbacks.py.
 
 #### Physical Memory Handling
 * Define handling action when physical memory is at normal range
@@ -47,6 +51,18 @@ Run the following command to build the relevant dependency
 make build
 ```
 
+### Automatic Method
+* Start up the rescue script in the backend with main.sh
+```
+make start_backend
+```
+
+* Or the rescue script in the front end
+```
+make start_frontend
+```
+
+
 ### Manual Method
 1. Make sure NSO is up. If NSO is down, the tool will terminate automatically
 2. Startup [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool) in one terminal with the following command
@@ -60,16 +76,7 @@ cd $PWD/lib/memory_utilization_tool/ ;bash plot.sh -v -m NaN &> $PWD/logs/monito
 4. The middleware will now monitor the output of the [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool). Incase the WARNING or CRIT is printed for allocated or used memory, the middleware will proceed with the action. 
 
 
-### Automatic Method
-* Start up the rescue script in the backend with main.sh
-```
-make start_backend
-```
 
-* Or the rescue script in the front end
-```
-make start_frontend
-```
 
 ## Copyright and License Notice
 ```

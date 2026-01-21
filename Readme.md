@@ -1,4 +1,7 @@
 # NSO Proactive Memory Handling Toolset
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/NSO-developer/nso-memory)
+
+
 This repository present a external toolset that startup a rescue script and operate beside NSO to take care of the Out of Memory scenario during NSO operation. The repository shows the application usage of the latest NSO Memory Best Practices by create a Rescue Script works beside the NSO as shown in the red box. The rescue script will incharge of the monitor the memory utilization of the NSO and proceed with the action described in the Action Proceed chapter below. At the same time, generate diagram of how memory utilization looks like with the help of the [NSO Memory Utilization Measurement Tool](https://github.com/NSO-developer/nso-memory-utilization-tool)  
 ![image](image/theory.png)  
 
